@@ -1,0 +1,32 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup dimensoes
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup fato
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.137.952.0 (24.10)
+
+annotation PBI_QueryOrder = ["f_manutencoes","f_ocorrencias","f_viagens","d_calendario","o_atualizacao"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table f_manutencoes
+ref table f_ocorrencias
+ref table f_viagens
+ref table d_calendario
+ref table o_atualizacao
+
+ref cultureInfo pt-BR
+

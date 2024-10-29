@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Desafio_RodoTransportes"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1a6b369d-cc0f-4baf-b1b3-2cb79f63f8e6"
+  }
+}

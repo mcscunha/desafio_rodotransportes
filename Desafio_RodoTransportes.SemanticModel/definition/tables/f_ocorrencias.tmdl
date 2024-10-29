@@ -1,0 +1,83 @@
+table f_ocorrencias
+	lineageTag: ecf16bcd-62e5-4199-99cf-72b561ad27e2
+
+	column Causa
+		dataType: string
+		lineageTag: 9be1a4b8-2fdd-4001-81b7-ac3a7cf253ae
+		summarizeBy: none
+		sourceColumn: Causa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Hora Abertura'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a707b10c-7a74-463f-9ec3-332705be970f
+		summarizeBy: none
+		sourceColumn: Data Hora Abertura
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Hora Fechamento'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8700489f-3103-4ec6-b78d-1cd912356985
+		summarizeBy: none
+		sourceColumn: Data Hora Fechamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Problema
+		dataType: string
+		lineageTag: 7d67fa24-ea44-4b12-a3ed-5a6ec274bfc1
+		summarizeBy: none
+		sourceColumn: Problema
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORDEM
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e248c48-6470-486f-8a25-56c9c93c96f5
+		summarizeBy: sum
+		sourceColumn: ORDEM
+
+		annotation SummarizationSetBy = Automatic
+
+	column Placa
+		dataType: string
+		lineageTag: f6f90d12-5fac-42a9-bb96-e7f3f305a46c
+		summarizeBy: none
+		sourceColumn: Placa
+
+		annotation SummarizationSetBy = Automatic
+
+	column Origem
+		dataType: string
+		lineageTag: be1f2904-0c1e-4975-8853-e1bd48c2cfee
+		summarizeBy: none
+		sourceColumn: Origem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_ocorrencias = m
+		mode: import
+		queryGroup: fato
+		source = ```
+				let
+				    diretorio = "C:\Users\murilo.cunha\OneDrive - SEB - Sistema Educacional Brasileiro\Documentos\PowerBI\DesafioMoby\dados\",
+				    planilha = "Tabela Ocorrencias.xlsx",
+				    arquivo_xlsx = Text.Combine({diretorio, planilha}),
+				    
+				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Causa", type text}, {"Data Hora Abertura", type datetime}, {"Data Hora Fechamento", type datetime}, {"Problema", type text}, {"ORDEM", Int64.Type}, {"Placa", type text}, {"Origem", type text}})
+				in
+				    #"Tipo Alterado"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

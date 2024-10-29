@@ -1,0 +1,185 @@
+table f_viagens
+	lineageTag: 2d96753c-b426-4c45-8467-b80b9a0651e7
+
+	column Placa
+		dataType: string
+		lineageTag: 257a4f64-4b77-4141-8c5c-8f5dce8b269a
+		summarizeBy: none
+		sourceColumn: Placa
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORDEM
+		dataType: int64
+		formatString: 0
+		lineageTag: 71b8c330-ee8b-41ab-aac5-d9bace6b4a5e
+		summarizeBy: sum
+		sourceColumn: ORDEM
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ID Viagem'
+		dataType: string
+		lineageTag: a4e31f14-a5b2-467b-8e40-ff700f0e70a6
+		summarizeBy: none
+		sourceColumn: ID Viagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cadastro da viagem'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9ad66756-17a2-4ae6-a0f6-6e454fe189ad
+		summarizeBy: none
+		sourceColumn: Cadastro da viagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status monitoramento'
+		dataType: string
+		lineageTag: 6723a39f-c1b8-4c9c-bb36-7796734f05a3
+		summarizeBy: none
+		sourceColumn: Status monitoramento
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status viagem'
+		dataType: string
+		lineageTag: 62f00b6b-a9eb-4972-9bc7-9de6de254731
+		summarizeBy: none
+		sourceColumn: Status viagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Operação da viagem'
+		dataType: string
+		lineageTag: 41a6d29d-1e10-4945-9583-b895da66050a
+		summarizeBy: none
+		sourceColumn: Operação da viagem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Origem
+		dataType: string
+		lineageTag: be0e49f5-bbec-4736-99c9-c0175404e417
+		summarizeBy: none
+		sourceColumn: Origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entrada na origem'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5f80ca53-5a06-4078-af8c-df56928dd550
+		summarizeBy: none
+		sourceColumn: Entrada na origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Saída da origem'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1921ee8a-2f39-4542-b9df-72f6c98f0c32
+		summarizeBy: none
+		sourceColumn: Saída da origem
+
+		annotation SummarizationSetBy = Automatic
+
+	column CPF_CNPJ
+		dataType: int64
+		formatString: 0
+		lineageTag: c2939c83-bb13-470b-95bd-b4385c510ff2
+		summarizeBy: sum
+		sourceColumn: CPF_CNPJ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entrada na entrega'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 548de580-f281-48a2-b1f0-3dee33d22ef8
+		summarizeBy: none
+		sourceColumn: Entrada na entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Saída da entrega'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 91fbc38a-355f-4c11-ab98-56ffc4b612c7
+		summarizeBy: none
+		sourceColumn: Saída da entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Entrada no destino'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d67b40b6-56a1-4db6-bf40-178e775770c9
+		summarizeBy: none
+		sourceColumn: Entrada no destino
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Saída do destino'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e2453b0a-e2d9-4757-af62-314e6f7c3772
+		summarizeBy: none
+		sourceColumn: Saída do destino
+
+		annotation SummarizationSetBy = Automatic
+
+	column Índice
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ee34576-2913-4f1e-99d2-444fa056e8e1
+		summarizeBy: sum
+		sourceColumn: Índice
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: 598c41d6-fae7-4694-b17a-ac76c7667000
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Destino
+		dataType: string
+		lineageTag: 0ea40742-ec6f-4a9c-bb2a-2218385b2c0a
+		summarizeBy: none
+		sourceColumn: Destino
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_viagens = m
+		mode: import
+		queryGroup: fato
+		source = ```
+				let
+				    diretorio = "C:\Users\murilo.cunha\OneDrive - SEB - Sistema Educacional Brasileiro\Documentos\PowerBI\DesafioMoby\dados\",
+				    planilha = "Tabela Viagens.xlsx",
+				    arquivo_xlsx = Text.Combine({diretorio, planilha}),
+				    
+				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"ORDEM", Int64.Type}, {"ID Viagem", type text}, {"Cadastro da viagem", type datetime}, {"Status monitoramento", type text}, {"Status viagem", type text}, {"Operação da viagem", type text}, {"Origem", type text}, {"Entrada na origem", type datetime}, {"Saída da origem", type datetime}, {"CPF_CNPJ", Int64.Type}, {"Cliente", type text}, {"Entrada na entrega", type datetime}, {"Saída da entrega", type datetime}, {"Destino", type text}, {"Entrada no destino", type datetime}, {"Saída do destino", type datetime}, {"Índice", Int64.Type}}),
+				
+				    // corrigir dados invalidos oriundos do Excel...
+				    #"@AddColClienteSemErro" = Table.AddColumn(#"Tipo Alterado", "ClienteSemErro", each try [Cliente] otherwise null),
+				    #"@AddColDestinoSemErro" = Table.AddColumn(#"@AddColClienteSemErro", "DestinoSemErro", each try [Destino] otherwise null),
+				    #"@DelColOriginais" = Table.RemoveColumns(#"@AddColDestinoSemErro", {"Cliente", "Destino"}),
+				    #"@RenColunasCorrigidas" = Table.RenameColumns(#"@DelColOriginais", {{"ClienteSemErro", "Cliente"}, {"DestinoSemErro", "Destino"}}),
+				    #"@TypeColunasCorrigidas" = Table.TransformColumnTypes(#"@RenColunasCorrigidas",{{"Cliente", type text}, {"Destino", type text}, {"Cadastro da viagem", type datetime}})
+				in
+				    #"@TypeColunasCorrigidas"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,50 @@
+table f_manutencoes
+	lineageTag: 579c5ef4-9dac-406b-a41a-25e77682eb39
+
+	column Placa
+		dataType: string
+		lineageTag: 479e9013-c388-4373-80e7-cde3e986e6b6
+		summarizeBy: none
+		sourceColumn: Placa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Hora Início'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6be43754-910b-41e9-bdb8-7e2ea897aa67
+		summarizeBy: none
+		sourceColumn: Data Hora Início
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Hora Fim 2'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 92e5f9ff-de2a-4668-98bd-c3ef57e87108
+		summarizeBy: none
+		sourceColumn: Data Hora Fim 2
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_manutencoes = m
+		mode: import
+		queryGroup: fato
+		source = ```
+				let
+				    diretorio = "C:\Users\murilo.cunha\OneDrive - SEB - Sistema Educacional Brasileiro\Documentos\PowerBI\DesafioMoby\dados\",
+				    planilha = "Tabela Manutenção.xlsx",
+				    arquivo_xlsx = Text.Combine({diretorio, planilha}),
+				    
+				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"Data Hora Início", type datetime}, {"Data Hora Fim 2", type datetime}})
+				in
+				    #"Tipo Alterado"
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

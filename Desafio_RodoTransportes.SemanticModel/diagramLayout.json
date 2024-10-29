@@ -1,0 +1,87 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 328
+          },
+          "nodeIndex": "f_manutencoes",
+          "nodeLineageTag": "579c5ef4-9dac-406b-a41a-25e77682eb39",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 291,
+            "y": 326
+          },
+          "nodeIndex": "f_ocorrencias",
+          "nodeLineageTag": "ecf16bcd-62e5-4199-99cf-72b561ad27e2",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 602,
+            "y": 337
+          },
+          "nodeIndex": "f_viagens",
+          "nodeLineageTag": "2d96753c-b426-4c45-8467-b80b9a0651e7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "d_calendario",
+          "nodeLineageTag": "9127dd74-60c4-4bbf-b864-147f1456e4e7",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 98
+          },
+          "nodeIndex": "o_atualizacao",
+          "nodeLineageTag": "74f4073a-7be7-4999-8251-be5071225a7c",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}
