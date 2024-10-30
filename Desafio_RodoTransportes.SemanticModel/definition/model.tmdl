@@ -16,9 +16,9 @@ queryGroup fato
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBIDesktopVersion = 2.137.952.0 (24.10)
+annotation PBIDesktopVersion = 2.137.1102.0 (24.10)
 
-annotation PBI_QueryOrder = ["f_manutencoes","f_ocorrencias","f_viagens","d_calendario","o_atualizacao"]
+annotation PBI_QueryOrder = ["f_manutencoes","f_ocorrencias","f_viagens","d_calendario","d_placas","o_atualizacao","o_log_desenvolvimento","d_status_viagem","d_origem","d_destino","d_problema_causa"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -27,6 +27,12 @@ ref table f_ocorrencias
 ref table f_viagens
 ref table d_calendario
 ref table o_atualizacao
+ref table o_log_desenvolvimento
+ref table d_placas
+ref table d_status_viagem
+ref table d_origem
+ref table d_destino
+ref table d_problema_causa
 
 ref cultureInfo pt-BR
 

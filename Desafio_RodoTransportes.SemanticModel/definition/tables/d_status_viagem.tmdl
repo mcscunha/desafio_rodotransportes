@@ -1,0 +1,34 @@
+table d_status_viagem
+	lineageTag: fbe5a8e2-5e71-4bd8-ac05-31ce133f3bbe
+
+	column status_viagem
+		dataType: string
+		lineageTag: 435bf01c-6e71-422b-bb46-2cb33ee4f2b0
+		summarizeBy: none
+		sourceColumn: status_viagem
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_status_viagem = m
+		mode: import
+		queryGroup: dimensoes
+		source =
+				let
+				    Fonte = Table.FromList(
+				        List.Distinct(
+				            List.Combine(
+				                {
+				                    f_viagens[Status viagem]
+				                }
+				            )
+				        ),
+				        Splitter.SplitByNothing(),
+				        type table[status_viagem = Text.Type]
+				    )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

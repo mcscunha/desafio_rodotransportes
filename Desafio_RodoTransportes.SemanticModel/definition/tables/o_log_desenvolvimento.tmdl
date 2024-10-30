@@ -1,0 +1,57 @@
+table o_log_desenvolvimento
+	lineageTag: 352272ad-2636-4905-a09d-59923cab185e
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dd73b72c-e34a-4ca9-b2c7-f12e2214a0f5
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Inicio
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 1cb19840-7793-456a-ae94-30a8694d39ba
+		summarizeBy: none
+		sourceColumn: Inicio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Fim
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 145ddf95-d256-4672-839a-e097e37ecf65
+		summarizeBy: none
+		sourceColumn: Fim
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Observacao
+		dataType: string
+		lineageTag: 13dc6976-26ff-47ff-8099-a500d91fe28f
+		summarizeBy: none
+		sourceColumn: Observacao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition o_log_desenvolvimento = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("fY9Na8MwDIb/ivBphYw6aWFprz0XsnPJQYm1TtS2iu0y+u9rxxv7OOziF2Q94nlPJ9X161avO91tVaPa7V7rki/7TcmjGLJ4JgdGIhgs7ywOBvmg8HqjcFdj8/fGJ9v2NYdAVww4o+QjgG5i8omgzODMCZ7EW/bU5ElMGCF//SK8JJpELpVIASe07xgWj8yvqsHuh4Huawu9qzkEdsRBCuI4LcBG/1P7ux48wyFwVaHM25tfFE2+6KNQrFZvOLPllK0Q5q/9vOjIcE41jg8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Inicio = _t, Fim = _t, Observacao = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Data", type date}, {"Inicio", type time}, {"Fim", type time}, {"Observacao", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

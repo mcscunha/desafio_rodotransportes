@@ -1,0 +1,34 @@
+table d_destino
+	lineageTag: 8eca71d7-af13-45dd-ac3c-1c1b4540b219
+
+	column Destino
+		dataType: string
+		lineageTag: 3f01f15c-8f70-4165-b61e-0940498894fe
+		summarizeBy: none
+		sourceColumn: Destino
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_destino = m
+		mode: import
+		queryGroup: dimensoes
+		source =
+				let
+				    Fonte = Table.FromList(
+				        List.Distinct(
+				            List.Combine(
+				                {
+				                    f_viagens[Destino]
+				                }
+				            )
+				        ),
+				        Splitter.SplitByNothing(),
+				        type table[Destino = Text.Type]
+				    )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
