@@ -170,9 +170,8 @@ table f_viagens
 		queryGroup: fato
 		source = ```
 				let
-				    diretorio = "C:\Users\murilo.cunha\OneDrive - SEB - Sistema Educacional Brasileiro\Documentos\PowerBI\DesafioMoby\dados\",
 				    planilha = "Tabela Viagens.xlsx",
-				    arquivo_xlsx = Text.Combine({diretorio, planilha}),
+				    arquivo_xlsx = Text.Combine( {dir_xlsx, planilha} ),
 				    
 				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
 				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
