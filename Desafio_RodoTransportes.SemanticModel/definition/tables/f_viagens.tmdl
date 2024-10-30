@@ -28,12 +28,14 @@ table f_viagens
 
 	column 'Cadastro da viagem'
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: 9ad66756-17a2-4ae6-a0f6-6e454fe189ad
 		summarizeBy: none
 		sourceColumn: Cadastro da viagem
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column 'Status monitoramento'
 		dataType: string
@@ -155,6 +157,14 @@ table f_viagens
 
 		annotation SummarizationSetBy = Automatic
 
+	column tempo_origem
+		dataType: string
+		lineageTag: 9bc083d7-64fc-402b-90a4-2f88a52dbf2f
+		summarizeBy: none
+		sourceColumn: tempo_origem
+
+		annotation SummarizationSetBy = Automatic
+
 	partition f_viagens = m
 		mode: import
 		queryGroup: fato
@@ -174,9 +184,31 @@ table f_viagens
 				    #"@AddColDestinoSemErro" = Table.AddColumn(#"@AddColClienteSemErro", "DestinoSemErro", each try [Destino] otherwise null),
 				    #"@DelColOriginais" = Table.RemoveColumns(#"@AddColDestinoSemErro", {"Cliente", "Destino"}),
 				    #"@RenColunasCorrigidas" = Table.RenameColumns(#"@DelColOriginais", {{"ClienteSemErro", "Cliente"}, {"DestinoSemErro", "Destino"}}),
-				    #"@TypeColunasCorrigidas" = Table.TransformColumnTypes(#"@RenColunasCorrigidas",{{"Cliente", type text}, {"Destino", type text}, {"Cadastro da viagem", type datetime}})
+				    #"@TypeColunasCorrigidas" = Table.TransformColumnTypes(#"@RenColunasCorrigidas",{{"Cliente", type text}, {"Destino", type text}, {"Cadastro da viagem", type datetime}}),
+				    #"Data Extraída" = Table.TransformColumns(#"@TypeColunasCorrigidas",{{"Cadastro da viagem", DateTime.Date, type date}}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Data Extraída", each ([Saída do destino] <> null)),
+				    #"Linhas Classificadas" = Table.Sort(#"Linhas Filtradas",{{"ID Viagem", Order.Ascending}}),
+				    #"@AddTempoOrigem" = Table.AddColumn(
+				        #"Linhas Classificadas",
+				        "tempo_origem", each 
+				        if Time.From([Saída da origem]) > Time.FromText("08:00:00") then 
+				            Time.From([Saída da origem]) - Time.FromText("08:00:00")
+				        else 
+				            0
+				    )
+				    
+				    // DateTime.FromText(Text.Start(Text.From([NomeDaColuna]), 16))
+				
+				    // , #"@AddTempoEntrega" = Table.AddColumn(
+				    //     #"@AddTempoOrigem",
+				    //     "tempo_enrega", each 
+				    //     if Time.From([Saída da entrega]) > Time.FromText("08:00:00") then 
+				    //         Time.From([Saída da entrega]) - Time.FromText("08:00:00")
+				    //     else 
+				    //         0
+				    // )
 				in
-				    #"@TypeColunasCorrigidas"
+				    #"@AddTempoOrigem"
 				```
 
 	annotation PBI_NavigationStepName = Navegação

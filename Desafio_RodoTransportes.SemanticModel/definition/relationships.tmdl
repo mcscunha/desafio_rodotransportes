@@ -1,0 +1,28 @@
+relationship AutoDetected_33f55ae9-8046-4684-bc19-19f36efb0661
+	fromColumn: f_manutencoes.Placa
+	toColumn: d_placas.Placa
+
+relationship AutoDetected_d860301d-3015-4188-96d1-ccbc80a47bba
+	fromColumn: f_ocorrencias.Placa
+	toColumn: d_placas.Placa
+
+relationship AutoDetected_b814ba66-cd94-4dc4-b1fe-0085d8429c3c
+	fromColumn: f_viagens.Placa
+	toColumn: d_placas.Placa
+
+relationship AutoDetected_0db1e19b-75f3-421a-85c1-b50da370cd74
+	fromColumn: f_ocorrencias.Causa
+	toColumn: d_problema_causa.Causa
+
+relationship AutoDetected_47eebe87-883b-4a8b-a8e5-de6b89be2f0e
+	fromColumn: f_ocorrencias.Origem
+	toColumn: d_origem.Origem
+
+relationship AutoDetected_f7df61c5-5104-441d-bba1-376b1486302d
+	fromColumn: f_viagens.Origem
+	toColumn: d_origem.Origem
+
+relationship AutoDetected_6871fffb-f8e9-44a7-acff-4fde2fdad625
+	fromColumn: f_viagens.'Status viagem'
+	toColumn: d_status_viagem.status_viagem
+

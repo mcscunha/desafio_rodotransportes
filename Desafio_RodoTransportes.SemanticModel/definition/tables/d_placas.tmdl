@@ -1,0 +1,36 @@
+table d_placas
+	lineageTag: 8284e4cf-657e-4d02-9abe-fb0efb5bc03e
+
+	column Placa
+		dataType: string
+		lineageTag: b8c990b6-cbdc-427d-a128-b814c238b23d
+		summarizeBy: none
+		sourceColumn: Placa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_placas = m
+		mode: import
+		queryGroup: dimensoes
+		source =
+				let
+				    Fonte = Table.FromList(
+				        List.Distinct(
+				            List.Combine(
+				                {
+				                    f_viagens[Placa],
+				                    f_manutencoes[Placa],
+				                    f_ocorrencias[Placa]
+				                }
+				            )
+				        ),
+				        Splitter.SplitByNothing(),
+				        type table[Placa = Text.Type]
+				    )
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

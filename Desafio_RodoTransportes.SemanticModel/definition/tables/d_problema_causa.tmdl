@@ -1,0 +1,38 @@
+table d_problema_causa
+	lineageTag: 7032733a-818a-470b-a008-a7cf35d813c2
+
+	column Problema
+		dataType: string
+		lineageTag: 76e27701-f5e1-4a8c-b05c-e671dc26a6b9
+		summarizeBy: none
+		sourceColumn: Problema
+
+		annotation SummarizationSetBy = Automatic
+
+	column Causa
+		dataType: string
+		lineageTag: ce27de00-f06b-49dc-8ea8-c87a451b1a93
+		summarizeBy: none
+		sourceColumn: Causa
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_problema_causa = m
+		mode: import
+		queryGroup: dimensoes
+		source = ```
+				let
+				    Fonte = Table.Distinct(
+				        f_ocorrencias[ 
+				            [Problema],
+				            [Causa]
+				        ]
+				    )
+				in
+				    Fonte
+				```
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
