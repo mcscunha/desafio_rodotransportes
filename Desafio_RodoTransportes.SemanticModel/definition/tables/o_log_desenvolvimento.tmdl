@@ -2,37 +2,28 @@ table o_log_desenvolvimento
 	lineageTag: 352272ad-2636-4905-a09d-59923cab185e
 
 	column Data
-		dataType: dateTime
-		formatString: Long Date
+		dataType: string
 		lineageTag: dd73b72c-e34a-4ca9-b2c7-f12e2214a0f5
 		summarizeBy: none
 		sourceColumn: Data
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation UnderlyingDateTimeDataType = Date
-
 	column Inicio
-		dataType: dateTime
-		formatString: Long Time
+		dataType: string
 		lineageTag: 1cb19840-7793-456a-ae94-30a8694d39ba
 		summarizeBy: none
 		sourceColumn: Inicio
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation UnderlyingDateTimeDataType = Time
-
 	column Fim
-		dataType: dateTime
-		formatString: Long Time
+		dataType: string
 		lineageTag: 145ddf95-d256-4672-839a-e097e37ecf65
 		summarizeBy: none
 		sourceColumn: Fim
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Time
 
 	column Observacao
 		dataType: string
@@ -42,14 +33,34 @@ table o_log_desenvolvimento
 
 		annotation SummarizationSetBy = Automatic
 
+	column Ini
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: aabdad9f-3d1b-43fc-94b4-1ab631472b49
+		summarizeBy: none
+		sourceColumn: Ini
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fin
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1926406f-0b86-44a0-9ad2-a95e7d6041b9
+		summarizeBy: none
+		sourceColumn: Fin
+
+		annotation SummarizationSetBy = Automatic
+
 	partition o_log_desenvolvimento = m
 		mode: import
 		source =
 				let
-				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("fY9Na8MwDIb/ivBphYw6aWFprz0XsnPJQYm1TtS2iu0y+u9rxxv7OOziF2Q94nlPJ9X161avO91tVaPa7V7rki/7TcmjGLJ4JgdGIhgs7ywOBvmg8HqjcFdj8/fGJ9v2NYdAVww4o+QjgG5i8omgzODMCZ7EW/bU5ElMGCF//SK8JJpELpVIASe07xgWj8yvqsHuh4Huawu9qzkEdsRBCuI4LcBG/1P7ux48wyFwVaHM25tfFE2+6KNQrFZvOLPllK0Q5q/9vOjIcE41jg8=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Inicio = _t, Fim = _t, Observacao = _t]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Data", type date}, {"Inicio", type time}, {"Fim", type time}, {"Observacao", type text}})
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("fZG9TgMxEIRfZXVVkILO+ZES0gEVBeKoKKIUG98mWWF7ke1TBE/P3jkREBCNR7I942/H63U1XdYTU0/NdF6Nq8l8ZUyvi9Ws10dpyeGePLSSoMV+teKhkSPF547ie7UZX2acvJNl0SbSG0a0KBoC6LdMIRP0e7DnDCMJjgONdSdlTKBHPxxBMm1FXosjR9yiO2AcONR/VQhuvhGYZZnC3BRtInviKL3Fcx4MM/PP2F/jwTXcRy4opH7XhQGx1cSQhFKh2qFlx1mpEOz5vl701LLq7xfN4hLxz5IO4kl2O7anvqyEzKHTd+TchID+jsWEMOKgBbpzyAuHVo6pbu4e6qcho77NHTr+QKvg2tvmEw==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Inicio = _t, Fim = _t, Observacao = _t]),
+				    #"Coluna Mesclada Inserida" = Table.AddColumn(Fonte, "Ini", each Text.Combine({Text.From([Data], "pt-BR"), Text.From([Inicio], "pt-BR")}, " "), type text),
+				    #"Coluna Mesclada Inserida1" = Table.AddColumn(#"Coluna Mesclada Inserida", "Fin", each Text.Combine({Text.From([Data], "pt-BR"), Text.From([Fim], "pt-BR")}, " "), type text),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Coluna Mesclada Inserida1",{{"Ini", type datetime}, {"Fin", type datetime}})
 				in
-				    #"Tipo Alterado"
+				    #"Tipo Alterado2"
 
 	annotation PBI_ResultType = Table
 
