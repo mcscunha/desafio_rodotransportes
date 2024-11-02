@@ -35,8 +35,6 @@ table f_viagens
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation UnderlyingDateTimeDataType = Date
-
 	column 'Status monitoramento'
 		dataType: string
 		lineageTag: 6723a39f-c1b8-4c9c-bb36-7796734f05a3
@@ -157,26 +155,49 @@ table f_viagens
 
 		annotation SummarizationSetBy = Automatic
 
-	column tempo_origem
-		dataType: string
-		lineageTag: 9bc083d7-64fc-402b-90a4-2f88a52dbf2f
-		summarizeBy: none
-		sourceColumn: tempo_origem
+	column saldo_origem
+		dataType: double
+		lineageTag: 63fcd642-bf95-45ae-9068-fabe2697de36
+		summarizeBy: sum
+		sourceColumn: saldo_origem
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column saldo_entrega
+		dataType: double
+		lineageTag: 54dcdbec-809e-40e4-a3d7-0ba350c2b55b
+		summarizeBy: sum
+		sourceColumn: saldo_entrega
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column saldo_destino
+		dataType: double
+		lineageTag: 8684e05c-6063-4f68-a9a6-e3d832546004
+		summarizeBy: sum
+		sourceColumn: saldo_destino
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition f_viagens = m
 		mode: import
 		queryGroup: fato
 		source = ```
 				let
+				
 				    planilha = "Tabela Viagens.xlsx",
 				    arquivo_xlsx = Text.Combine( {dir_xlsx, planilha} ),
 				    
 				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
 				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"ORDEM", Int64.Type}, {"ID Viagem", type text}, {"Cadastro da viagem", type datetime}, {"Status monitoramento", type text}, {"Status viagem", type text}, {"Operação da viagem", type text}, {"Origem", type text}, {"Entrada na origem", type datetime}, {"Saída da origem", type datetime}, {"CPF_CNPJ", Int64.Type}, {"Cliente", type text}, {"Entrada na entrega", type datetime}, {"Saída da entrega", type datetime}, {"Destino", type text}, {"Entrada no destino", type datetime}, {"Saída do destino", type datetime}, {"Índice", Int64.Type}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"ORDEM", Int64.Type}, {"ID Viagem", type text}, {"Cadastro da viagem", type date}, {"Status monitoramento", type text}, {"Status viagem", type text}, {"Operação da viagem", type text}, {"Origem", type text}, {"Entrada na origem", type datetime}, {"Saída da origem", type datetime}, {"CPF_CNPJ", Int64.Type}, {"Cliente", type text}, {"Entrada na entrega", type datetime}, {"Saída da entrega", type datetime}, {"Destino", type text}, {"Entrada no destino", type datetime}, {"Saída do destino", type datetime}, {"Índice", Int64.Type}}),
 				
 				    // corrigir dados invalidos oriundos do Excel...
 				    #"@AddColClienteSemErro" = Table.AddColumn(#"Tipo Alterado", "ClienteSemErro", each try [Cliente] otherwise null),
@@ -184,30 +205,62 @@ table f_viagens
 				    #"@DelColOriginais" = Table.RemoveColumns(#"@AddColDestinoSemErro", {"Cliente", "Destino"}),
 				    #"@RenColunasCorrigidas" = Table.RenameColumns(#"@DelColOriginais", {{"ClienteSemErro", "Cliente"}, {"DestinoSemErro", "Destino"}}),
 				    #"@TypeColunasCorrigidas" = Table.TransformColumnTypes(#"@RenColunasCorrigidas",{{"Cliente", type text}, {"Destino", type text}, {"Cadastro da viagem", type datetime}}),
-				    #"Data Extraída" = Table.TransformColumns(#"@TypeColunasCorrigidas",{{"Cadastro da viagem", DateTime.Date, type date}}),
-				    #"Linhas Filtradas" = Table.SelectRows(#"Data Extraída", each ([Saída do destino] <> null)),
-				    #"Linhas Classificadas" = Table.Sort(#"Linhas Filtradas",{{"ID Viagem", Order.Ascending}}),
-				    #"@AddTempoOrigem" = Table.AddColumn(
-				        #"Linhas Classificadas",
-				        "tempo_origem", each 
-				        if Time.From([Saída da origem]) > Time.FromText("08:00:00") then 
-				            Time.From([Saída da origem]) - Time.FromText("08:00:00")
-				        else 
-				            0
-				    )
-				    
-				    // DateTime.FromText(Text.Start(Text.From([NomeDaColuna]), 16))
+				    // #"SaidaEntregaNull" = Table.ReplaceValue( 
+				    //     #"Data Extraída",
+				    //     null, 
+				    //     each if [Saída da entrega] = null then [Entrada na entrega] else [Saída da entrega],
+				    //     Replacer.ReplaceValue,
+				    //     {"Saída da entrega"}
+				    // ),
 				
-				    // , #"@AddTempoEntrega" = Table.AddColumn(
-				    //     #"@AddTempoOrigem",
-				    //     "tempo_enrega", each 
-				    //     if Time.From([Saída da entrega]) > Time.FromText("08:00:00") then 
-				    //         Time.From([Saída da entrega]) - Time.FromText("08:00:00")
-				    //     else 
-				    //         0
-				    // )
+				    // #"SaidaDestinoNull" = Table.ReplaceValue( 
+				    //     #"SaidaEntregaNull",
+				    //     null, 
+				    //     each if [Saída do destino] = null then [Entrada no destino] else [Saída do destino],
+				    //     Replacer.ReplaceValue,
+				    //     {"Saída do destino"}
+				    // ),
+				
+				    #"@EtapaAnterior" = #"@TypeColunasCorrigidas",
+				    
+				    feriados_buffered = List.Buffer({d_feriados_anbima[Data]}),
+				
+				    #"@AddSaldoOrigem" = Table.AddColumn(
+				        #"@EtapaAnterior",
+				        "saldo_origem",
+				        each fx_horas_uteis(
+				            tim_inicio_expediente,
+				            tim_fim_expediente,
+				            [Entrada na origem],
+				            [Saída da origem],
+				            feriados_buffered
+				        )
+				    ),
+				    #"@AddSaldoEntrega" = Table.AddColumn(
+				        #"@AddSaldoOrigem",
+				        "saldo_entrega",
+				        each fx_horas_uteis(
+				            tim_inicio_expediente,
+				            tim_fim_expediente,
+				            [Entrada na entrega],
+				            [Saída da entrega],
+				            feriados_buffered
+				        )
+				    ),
+				    #"@AddSaldoDestino" = Table.AddColumn(
+				        #"@AddSaldoEntrega",
+				        "saldo_destino",
+				        each fx_horas_uteis(
+				            tim_inicio_expediente,
+				            tim_fim_expediente,
+				            [Entrada no destino],
+				            [Saída do destino],
+				            feriados_buffered
+				        )
+				    ),
+				    #"Total de Segundos Calculados" = Table.TransformColumns(#"@AddSaldoDestino",{{"saldo_origem", Duration.TotalSeconds, type number}, {"saldo_entrega", Duration.TotalSeconds, type number}, {"saldo_destino", Duration.TotalSeconds, type number}})
 				in
-				    #"@AddTempoOrigem"
+				    #"Total de Segundos Calculados"
 				```
 
 	annotation PBI_NavigationStepName = Navegação

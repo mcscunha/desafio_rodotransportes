@@ -1,7 +1,182 @@
-expression dir_xlsx = "C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\" meta [IsParameterQuery=true, List={"C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\"}, DefaultValue="C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", Type="Text", IsParameterQueryRequired=true]
+expression dir_xlsx = "C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\" meta [IsParameterQuery=true, List={"C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", "C:\\PowerBI\\DesafioMoby\\dados\"}, DefaultValue="C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d2fd0231-e5f0-4c92-9c23-5110e699a470
 
 	annotation PBI_NavigationStepName = Navegação
 
 	annotation PBI_ResultType = Text
+
+expression fx_horas_uteis = ```
+		/*
+		   A função tem como objetivo extrair a quantidade de horas úteis entre duas datas
+		   excluindo feriados informados como parâmetro e também um expediente ( hora de inicio e fim)
+		
+		*/
+		
+		(InicioExpediente, FimExpediente, Abertura, Fechamento, ListaFeriados) =>
+		
+		let 
+		    // Determinando a menor e maior data
+		    MenorData = List.Min({Abertura, Fechamento}),
+		    MaiorData = List.Max({Abertura, Fechamento}),
+		    
+		    DiaDaAberturaNum = Number.From(DateTime.Date(MenorData)),
+		    DiaDoFechamentoNum = Number.From(DateTime.Date(MaiorData)),
+		    HorarioDaAberturaNum = Number.From(DateTime.Time(MenorData)),
+		    HorarioDoFechamentoNum = Number.From(DateTime.Time(MaiorData)),
+		
+		    DiaDaAbertura = DateTime.Date(MenorData),
+		    DiaDoFechamento = DateTime.Date(MaiorData),
+		    HorarioDaAbertura = DateTime.Time(MenorData),
+		    HorarioDoFechamento = DateTime.Time(MaiorData),
+		
+		    // Lista dos dias úteis sem Sábados e Domingos
+		    ListaDeDatas = List.Transform(
+		        List.Select({DiaDaAberturaNum..DiaDoFechamentoNum}, each Number.Mod(_,7) > 1),
+		        each Date.From(_)
+		     ),
+		
+		    // Filtrar feriados
+		    ListaDiasUteis = List.Difference(ListaDeDatas, ListaFeriados),
+		
+		    SomaHorasUteis = 
+		        // para nao contar duas vezes...
+		        //
+		        // comparar se a data de abertura É igual a data fechamento (caso contrario, contaria as horas na entrada E na saida, duplicando o valor)
+		        if DiaDaAbertura = DiaDoFechamento then
+		            if DiaDaAbertura = List.First(ListaDiasUteis) then
+		                (List.Median({InicioExpediente,FimExpediente,HorarioDoFechamento}) - List.Median({InicioExpediente,FimExpediente,HorarioDaAbertura}))
+		            else 
+		                #duration(0, 0, 0, 0)  // Retornar duração zero
+		        else 
+		        // se a data de abertura É diferente da de fechamento, 
+		        //
+		        // calcule as horas na entrada...
+		        (
+		            if DiaDaAbertura = List.First(ListaDiasUteis) then
+		                (FimExpediente - List.Median({InicioExpediente,FimExpediente,HorarioDaAbertura}))
+		            else 
+		                #duration(0, 0, 0, 0)  // Retornar duração zero
+		        )
+		        +
+		        // calcule as horas na saida...
+		        (
+		            if DiaDoFechamento = List.Last(ListaDiasUteis) then 
+		                (List.Median({InicioExpediente,FimExpediente,HorarioDoFechamento}) - InicioExpediente)
+		            else 
+		                #duration(0, 0, 0, 0)  // Retornar duração zero
+		        )
+		        +
+		        // nos outros dias, conte o numero de dias uteis e multiplique pelo numero de horas uteis a trabalhar
+		        (
+		            List.Count(List.Difference(ListaDiasUteis,{DiaDaAbertura,DiaDoFechamento}))*(FimExpediente - InicioExpediente)
+		        )
+		
+		in 
+		        SomaHorasUteis
+		```
+	lineageTag: d16f6eeb-24df-4750-9053-8ad97a932071
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Function
+
+expression tim_inicio_expediente = #time(8, 0, 0) meta [IsParameterQuery=true, Type="Time", IsParameterQueryRequired=true]
+	lineageTag: bc86c9c5-a3d4-4060-a7c7-5bea1a6dd1a3
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Time
+
+expression tim_fim_expediente = #time(18, 0, 0) meta [IsParameterQuery=true, Type="Time", IsParameterQueryRequired=true]
+	lineageTag: 170ee1ed-7e7f-4add-809b-bd555a339215
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Time
+
+expression 'fx_horas_uteis (2)' = ```
+		(InicioExpediente, FimExpediente, Abertura, Fechamento, ListaFeriados) =>
+		
+		let 
+		
+		DiaDaAbertura   = if Abertura = null then 
+		        Number.From(DateTime.Date(Fechamento))
+		else 
+		        Number.From(DateTime.Date(Abertura)),
+		
+		DiaDoFechamento = if Fechamento = null then 
+		        Number.From(DateTime.Date(Abertura))
+		else 
+		        Number.From(DateTime.Date(Fechamento)),
+		
+		HorarioDaAbertura   = Number.From(DateTime.Time(Abertura)),
+		HorarioDoFechamento = Number.From(DateTime.Time(Fechamento)),
+		
+		// Lista dos dias sem Sábados e Domingos
+		ListaDeDatas = List.Select({DiaDaAbertura..DiaDoFechamento}, each Number.Mod(_,7) > 1),
+		
+		// Lista dos dias sem Sábados, Domingos e Feriádos.
+		// Retorna apenas os números diferentes não existentes na tabela feriado, ou seja apenas não feriados.
+		ListaDiasUteis = List.Difference(ListaDeDatas, ListaFeriados),
+		
+		
+		SomaHorasUteis = 
+		        // Verifica se o dia da abertua é igual ao dia do fechamento
+		        if DiaDaAbertura = DiaDoFechamento then
+		                if DiaDaAbertura = List.First(ListaDiasUteis) then
+		                        // Verifica se o dia de abertura não é feriado. (DtAbertura = DtFechamento)
+		                        List.Median({InicioExpediente,FimExpediente,HorarioDoFechamento}) - 
+		                        List.Median({InicioExpediente,FimExpediente,HorarioDaAbertura})
+		                else 0
+		        else (
+		                if DiaDaAbertura = List.First(ListaDiasUteis) then
+		                        // Verifica se o dia da abertura é dia útil (DtAbertura <> DtFechamento)
+		                        FimExpediente - 
+		                        List.Median({InicioExpediente,FimExpediente,HorarioDaAbertura})
+		                else 0
+		        )
+		        +
+		        (       
+		                if DiaDoFechamento = List.Last(ListaDiasUteis) then 
+		                        // Verifica se o dia de fechamento é dia útil (DtAbertura <> DtFechamento)
+		                        List.Median({InicioExpediente,FimExpediente,HorarioDoFechamento}) - 
+		                        InicioExpediente
+		                else 0
+		        )
+		        +
+		        (
+		                //Soma to total de horas úteis excluindo (DiaAbertura, DiaFechamento, Feriados, Sábados e Domingos)
+		                List.Count(List.Difference(ListaDiasUteis,{DiaDaAbertura,DiaDoFechamento}))*(FimExpediente - InicioExpediente)
+		        ),
+		
+		Saldo = if (SomaHorasUteis <> 0) then 
+		        if Number.From(SomaHorasUteis) < 0 then 
+		                Number.From(SomaHorasUteis) * -1 
+		        else 
+		                Number.From(SomaHorasUteis)
+		else 0
+		
+		in 
+		
+		Saldo
+		```
+	lineageTag: 00dce049-92c2-4d88-a3bc-1e94427a9099
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Function
+
+expression d_feriados_anbima =
+		let
+		    Fonte = Csv.Document(File.Contents("C:\Users\mcscunha\Documents\PowerBI\desafio_rodotransportes\dados\feriados_anbima.csv"),[Delimiter=";", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data", type date}, {"Dia da Semana", type text}, {"Feriado", type text}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: 553a91d3-e98f-423b-9c2d-0e998a792599
+	queryGroup: dimensoes
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
 

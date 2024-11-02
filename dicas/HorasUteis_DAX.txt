@@ -1,0 +1,39 @@
+EVALUATE
+
+VAR IN_EXP = TIME(8,0,0)
+VAR FI_EXP = TIME(17,0,0)
+
+VAR ABERTURA = DATE(2024,1,1)
+VAR FECHAMENTO = DATE(2024,1,1)
+VAR FERIDOS =  {DATE(2024,1,1)}
+
+VAR HORAS_UTEIS = (FI_EXP - IN_EXP)*24
+
+VAR IN_ATI_HH = VAR H_I = TIMEVALUE(ABERTURA) RETURN SWITCH(TRUE(), H_I<IN_EXP, IN_EXP, H_I>FI_EXP, FI_EXP, H_I)
+VAR FI_ATI_HH = VAR H_F = TIMEVALUE(FECHAMENTO) RETURN SWITCH(TRUE(), H_F<IN_EXP, IN_EXP, H_F>FI_EXP, FI_EXP, H_F)
+
+VAR INICIO_UTIL = NETWORKDAYS(ABERTURA,ABERTURA,1,FERIDOS)
+VAR FIM_UTIL = NETWORKDAYS(FECHAMENTO,FECHAMENTO,1,FERIDOS)
+
+VAR HORAS_RETIRAR = SWITCH( TRUE(),
+     INICIO_UTIL = 0 && FIM_UTIL = 0, 0, 
+     INICIO_UTIL = 0 && FIM_UTIL <>0, FI_EXP - FI_ATI_HH,
+     INICIO_UTIL <> 0 && FIM_UTIL= 0, IN_ATI_HH - IN_EXP,
+    (IN_ATI_HH - IN_EXP) + (FI_EXP - FI_ATI_HH))*24
+
+VAR HORAS_UTEIS_FINAL = NETWORKDAYS(ABERTURA,FECHAMENTO,1,FERIDOS)*HORAS_UTEIS
+
+RETURN   ROW("Horas", ROUND(HORAS_UTEIS_FINAL,10) - ROUND(HORAS_RETIRAR, 10) )
+
+
+/*
+SDG (Soli Deo Gloria)
+Hebreus 10:38-39 
+Mas o justo viverá da fé; e, se ele recuar, 
+a minha alma não tem prazer nele. 
+Nós, porém, não somos daqueles que se retiram para a perdição, 
+mas daqueles que creem para a conservação da alma.*/
+
+
+//Rafael 09/07/2024
+//https://www.youtube.com/@usedax/videos
