@@ -205,35 +205,21 @@ table f_viagens
 				    #"@DelColOriginais" = Table.RemoveColumns(#"@AddColDestinoSemErro", {"Cliente", "Destino"}),
 				    #"@RenColunasCorrigidas" = Table.RenameColumns(#"@DelColOriginais", {{"ClienteSemErro", "Cliente"}, {"DestinoSemErro", "Destino"}}),
 				    #"@TypeColunasCorrigidas" = Table.TransformColumnTypes(#"@RenColunasCorrigidas",{{"Cliente", type text}, {"Destino", type text}, {"Cadastro da viagem", type datetime}}),
-				    // #"SaidaEntregaNull" = Table.ReplaceValue( 
-				    //     #"Data Extraída",
-				    //     null, 
-				    //     each if [Saída da entrega] = null then [Entrada na entrega] else [Saída da entrega],
-				    //     Replacer.ReplaceValue,
-				    //     {"Saída da entrega"}
-				    // ),
-				
-				    // #"SaidaDestinoNull" = Table.ReplaceValue( 
-				    //     #"SaidaEntregaNull",
-				    //     null, 
-				    //     each if [Saída do destino] = null then [Entrada no destino] else [Saída do destino],
-				    //     Replacer.ReplaceValue,
-				    //     {"Saída do destino"}
-				    // ),
-				
-				    #"@EtapaAnterior" = #"@TypeColunasCorrigidas",
 				    
-				    feriados_buffered = List.Buffer({d_feriados_anbima[Data]}),
+				    // quando colocado o nome da coluna, dentro do colchete, o retorno é uma LISTA!
+				    feriados_buffered = List.Buffer( d_feriados_anbima[Data] ),
 				
 				    #"@AddSaldoOrigem" = Table.AddColumn(
-				        #"@EtapaAnterior",
+				        #"@TypeColunasCorrigidas",
 				        "saldo_origem",
 				        each fx_horas_uteis(
 				            tim_inicio_expediente,
 				            tim_fim_expediente,
 				            [Entrada na origem],
 				            [Saída da origem],
-				            feriados_buffered
+				            feriados_buffered,
+				            null,
+				            null
 				        )
 				    ),
 				    #"@AddSaldoEntrega" = Table.AddColumn(
@@ -244,7 +230,9 @@ table f_viagens
 				            tim_fim_expediente,
 				            [Entrada na entrega],
 				            [Saída da entrega],
-				            feriados_buffered
+				            feriados_buffered,
+				            null,
+				            null
 				        )
 				    ),
 				    #"@AddSaldoDestino" = Table.AddColumn(
@@ -255,10 +243,19 @@ table f_viagens
 				            tim_fim_expediente,
 				            [Entrada no destino],
 				            [Saída do destino],
-				            feriados_buffered
+				            feriados_buffered,
+				            null,
+				            null
 				        )
 				    ),
-				    #"Total de Segundos Calculados" = Table.TransformColumns(#"@AddSaldoDestino",{{"saldo_origem", Duration.TotalSeconds, type number}, {"saldo_entrega", Duration.TotalSeconds, type number}, {"saldo_destino", Duration.TotalSeconds, type number}})
+				    #"Total de Segundos Calculados" = Table.TransformColumns(
+				        #"@AddSaldoDestino",
+				        {
+				            {"saldo_origem", Duration.TotalSeconds, type number}, 
+				            {"saldo_entrega", Duration.TotalSeconds, type number}, 
+				            {"saldo_destino", Duration.TotalSeconds, type number}
+				        }
+				    )
 				in
 				    #"Total de Segundos Calculados"
 				```

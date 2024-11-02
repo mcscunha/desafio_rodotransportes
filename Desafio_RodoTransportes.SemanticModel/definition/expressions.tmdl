@@ -7,23 +7,56 @@ expression dir_xlsx = "C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotran
 
 expression fx_horas_uteis = ```
 		/*
-		   A função tem como objetivo extrair a quantidade de horas úteis entre duas datas
-		   excluindo feriados informados como parâmetro e também um expediente ( hora de inicio e fim)
+		    A função tem como objetivo extrair a quantidade de horas úteis entre duas datas
+		    excluindo feriados informados como parâmetro e também um expediente ( hora de inicio e fim)
 		
+		    Se ABERTURADEFAULT nao for declarado, e o valor de ABERTURA for NULL, o script pega 
+		    o valor de FECHAMENTO e atribui para este campo, gerando, assim, um tempo de ZERO!
+		    
+		    O mesmo vale para FECHAMENTODEFAULT, se FECHAMENTO for NULL, ele pega o valor de ABERTURA, 
+		    gerando uma duracao de ZERO!
+		
+		    ATENCAO:
+		    -----------------------
+		    Nao esqueca de BUFFERIZAR a tabela de FERIADOS quando chamar esta funcao! Exemplo:
+		
+		    // quando colocado o nome da coluna, dentro do colchete, o retorno é uma LISTA!
+		    // BUFFERIZAR antes de usa-la na funcao!
+		    feriados_buffered = List.Buffer( d_feriados_anbima[Data] ),
+		
+		    // chamando a funcao...
+		    #"@AddSaldoOrigem" = Table.AddColumn(
+		        #"@TypeColunasCorrigidas",
+		        "saldo_origem",
+		        each fx_horas_uteis(
+		            tim_inicio_expediente,
+		            tim_fim_expediente,
+		            [Entrada na origem],
+		            [Saída da origem],
+		            feriados_buffered,
+		            null,
+		            null
+		        )
+		    )
 		*/
 		
-		(InicioExpediente, FimExpediente, Abertura, Fechamento, ListaFeriados) =>
+		(InicioExpediente, FimExpediente, Abertura, Fechamento, ListaFeriados, AberturaDefault, FechamentoDefault) =>
 		
 		let 
-		    // Determinando a menor e maior data
-		    MenorData = List.Min({Abertura, Fechamento}),
-		    MaiorData = List.Max({Abertura, Fechamento}),
+		    // Se a data de abertura ou fechamento estiverem nulas, pegue o DEFAULT.
+		    // Apos determinar qual a data padrao, determinando a menor E maior data para caso o usuario inverta o cadastro das horas
+		    MenorData =  List.Min(
+		        { List.First( List.RemoveNulls( { Abertura, AberturaDefault } ) ), Fechamento }
+		    ),
+		    MaiorData = List.Max(
+		        { Abertura, List.First( List.RemoveNulls( { Fechamento, FechamentoDefault } ) ) }
+		    ),
 		    
+		    // Pegar a Abertura e Fechamento no formato numerico. Com isso, pode-se montar uma lista com o intervalo de dias
 		    DiaDaAberturaNum = Number.From(DateTime.Date(MenorData)),
 		    DiaDoFechamentoNum = Number.From(DateTime.Date(MaiorData)),
-		    HorarioDaAberturaNum = Number.From(DateTime.Time(MenorData)),
-		    HorarioDoFechamentoNum = Number.From(DateTime.Time(MaiorData)),
 		
+		    // Quebrar em DATA e HORA para comparacoes futuras
 		    DiaDaAbertura = DateTime.Date(MenorData),
 		    DiaDoFechamento = DateTime.Date(MaiorData),
 		    HorarioDaAbertura = DateTime.Time(MenorData),
