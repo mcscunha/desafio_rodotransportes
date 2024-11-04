@@ -5335,29 +5335,6 @@ cultureInfo pt-BR
 			      ],
 			      "SemanticType": "Time"
 			    },
-			    "o_log_desenvolvimento.saldo_segundo": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "o_log_desenvolvimento",
-			          "ConceptualProperty": "saldo_segundos"
-			        }
-			      },
-			      "State": "Generated",
-			      "Terms": [
-			        {
-			          "saldo segundo": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "saldo_segundos": {
-			            "Type": "Noun",
-			            "State": "Generated",
-			            "Weight": 0.99
-			          }
-			        }
-			      ]
-			    },
 			    "d_placa": {
 			      "Definition": {
 			        "Binding": {
@@ -5854,16 +5831,6 @@ cultureInfo pt-BR
 			          "soma horas": {
 			            "State": "Generated"
 			          }
-			        },
-			        {
-			          "Producao": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -5942,16 +5909,6 @@ cultureInfo pt-BR
 			          "soma horas manutencao": {
 			            "State": "Generated"
 			          }
-			        },
-			        {
-			          "Manutencao": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -5983,16 +5940,6 @@ cultureInfo pt-BR
 			        {
 			          "saldo produtividade": {
 			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "Saldo": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -6672,16 +6619,6 @@ cultureInfo pt-BR
 			          "saldo produtividade formatado": {
 			            "State": "Generated",
 			            "Weight": 0.75
-			          }
-			        },
-			        {
-			          "Produtividade": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        },
 			        {

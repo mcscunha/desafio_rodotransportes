@@ -1,0 +1,3 @@
+Na tabela de viagens, guardar apenas a data na coluna CADASTRO DE VIAGEM, pois esta coluna será ligada na calendário
+Alguns registros não tem horário de saída ou entrada
+Inversão da hora de saída com a hora de entrada, causando tempo negativo

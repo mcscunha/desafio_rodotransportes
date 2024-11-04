@@ -36,20 +36,11 @@ table o_log_desenvolvimento
 
 		annotation SummarizationSetBy = Automatic
 
-	column saldo_segundos
-		dataType: double
-		formatString: 0
-		lineageTag: 85233147-b042-4c1a-ab21-3794e4394a2e
-		summarizeBy: sum
-		sourceColumn: saldo_segundos
-
-		annotation SummarizationSetBy = Automatic
-
 	partition o_log_desenvolvimento = m
 		mode: import
 		source = ```
 				let
-				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("lZFfS8MwFMW/SuiTwqRpN3Hb2xTBPcjqpvgwhty2d1swyZUkdein97bdXxmIUHIvac7J757M51HajxMZpzLtRZ0o6Q2l5K9ub4bdbftIJWpYoREleVFCvRZkREYbdE8Vuq9o0fntdJAn/X2bOfwABwUQWwkwuUIbUNR7YqWCuCCrlcUO7/gAXvCvE4WlgDnRe6sIDnLQa3ANDesvW47BEYfs7yeSg32bOWVQOaqFRoVG1pV/BnEYWFyJO6daLGQXXdkGt2Rf6wl9S7iEQmkVmBBEsTvPBw2WiuuZew+MaXKEeza2NRmk5VIV2wQLskHZim+jXTYk+NUK8CAulOVI9c7kVdmSNj7ObsfxpPGIR6ECrb6hYPw2SZnESXKCVnN1h9d1naIn/Ylsw49EuUYDwvLIld2m8jCZjmZvL8/341nrlh65Ne9Su6Zt/Z/b4gc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Inicio = _t, Fim = _t, Observacao = _t]),
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("rZNba9tAEIX/yqKnFFx0s4ntt/SSNg8lbpLSh2DKSBonQ1c77e7Kof31nV3JthwMhTZgtIOs+fbsmbP390kxT/MsLbJimkySfLrMMvmF8nxZDuUnblDDA7aqYacaCM+aW7XiJ7SfO7S/kvXkOenQns/35criD7BQAwtKQVsRGo8qvFMP5NUZG00GJ/LGeXBK/jrqMOyxYv7ed3gLFehHsFGN9L/qdSxGOrL5/kTZYl+uLLVIlkNjSz62ldlfjTgcWL1Wby31slAoujNRbiNc4xhdr3ADNWnyohBUvftePmyxIVlP7HvQWOQjuSdte+QWebOhenCwZuPJdLIb77xhJVOrwYE6IyOW6h3kK5mGn1y6enOVXkdGeuE70PQbapHfO5nlaZ4fSQu6yuUsrDfoWG9RMDIkrjS2oIwcuTODKx+vby5uv325e39129OKES3OJVCLfv0/Wj4baIuXoEXnh5Mu/olWjrXtclRKjmR9hw7NVoAhKj4OY0tOrJdMXZL2lt1E3UElV06KDxZkOByyddmJghP82bHal+BPx/zzXne8xs/D6BTYnx1teQi87EySULlYOmY0Wa//AA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t, Inicio = _t, Fim = _t, Observacao = _t]),
 				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Data", type date}, {"Inicio", type time}, {"Fim", type time}}),
 				    
 				    #"Coluna Mesclada Inserida" = Table.AddColumn(
@@ -71,22 +62,9 @@ table o_log_desenvolvimento
 				    #"Coluna Mesclada Inserida1" = Table.AddColumn(#"Colunas Removidas", "dt_fim", each Text.Combine({Text.From([Data], "pt-BR"), Text.From([Fim], "pt-BR")}, " "), type datetime),
 				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Coluna Mesclada Inserida1",{{"dt_inicio", type datetime}, {"dt_fim", type datetime}}),
 				    
-				    // obter as horas uteis trabalhadas
-				    #"Função Personalizada Invocada" = Table.AddColumn(
-				        #"Tipo Alterado1",
-				        "saldo_segundos", each fx_horas_uteis(
-				            #time(8, 0, 0),
-				            #time(18, 0, 0),
-				            [dt_inicio],
-				            [dt_fim],
-				            d_feriados_anbima[Data]
-				        )
-				    ),
-				    
-				    #"Colunas Removidas1" = Table.RemoveColumns(#"Função Personalizada Invocada",{"Data", "Inicio", "Fim"}),
-				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Colunas Removidas1",{{"saldo_segundos", type number}})
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"Tipo Alterado1",{"Data", "Inicio", "Fim"})
 				in
-				    #"Tipo Alterado2"
+				    #"Colunas Removidas1"
 				```
 
 	annotation PBI_ResultType = Table

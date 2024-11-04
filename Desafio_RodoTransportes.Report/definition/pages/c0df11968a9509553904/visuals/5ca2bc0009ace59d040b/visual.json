@@ -32,6 +32,9 @@
             }
           ]
         },
+        "Series": {
+          "projections": []
+        },
         "Tooltips": {
           "projections": [
             {
@@ -181,27 +184,6 @@
               }
             }
           }
-        },
-        {
-          "properties": {
-            "labelOverflow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "optimizeLabelDisplay": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_medidas.% Produtividade"
-          }
         }
       ],
       "valueAxis": [
@@ -294,20 +276,6 @@
                 }
               }
             }
-          }
-        },
-        {
-          "properties": {
-            "fillTransparency": {
-              "expr": {
-                "Literal": {
-                  "Value": "100D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_medidas.% Produtividade"
           }
         }
       ],
