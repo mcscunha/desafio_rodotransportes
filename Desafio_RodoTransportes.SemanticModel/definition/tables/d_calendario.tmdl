@@ -12,7 +12,7 @@ table d_calendario
 
 	column Data
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: ad55ae25-eb53-4a10-8baa-9d0170e93312
 		summarizeBy: none
 		sourceColumn: Data
@@ -49,7 +49,7 @@ table d_calendario
 
 	column AnoInicio
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: b7748d50-ffdd-4317-9836-75aeed808168
 		summarizeBy: none
 		sourceColumn: AnoInicio
@@ -60,7 +60,7 @@ table d_calendario
 
 	column AnoFim
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 0a8788af-4837-4644-b332-939124dea765
 		summarizeBy: none
 		sourceColumn: AnoFim
@@ -187,6 +187,9 @@ table d_calendario
 		lineageTag: 3a44d603-9a7d-4aa3-86c9-223937e7d0c6
 		summarizeBy: none
 		sourceColumn: MesNome
+		sortByColumn: MesNum
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -242,7 +245,7 @@ table d_calendario
 
 	column MesInicio
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 1076e726-e6c7-4269-adde-78e81493050d
 		summarizeBy: none
 		sourceColumn: MesInicio
@@ -253,7 +256,7 @@ table d_calendario
 
 	column MesFim
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 9d050d6b-3c61-477c-89b1-74676b45e82c
 		summarizeBy: none
 		sourceColumn: MesFim
@@ -315,7 +318,7 @@ table d_calendario
 
 	column TrimestreInicio
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 343a8bfb-9c12-42cc-8902-c10059596288
 		summarizeBy: none
 		sourceColumn: TrimestreInicio
@@ -326,7 +329,7 @@ table d_calendario
 
 	column TrimestreFim
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 91dcc90d-49fc-4e28-b65b-aa44bfadd394
 		summarizeBy: none
 		sourceColumn: TrimestreFim
@@ -415,7 +418,7 @@ table d_calendario
 
 	column SemanaIsoInicio
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 6a6819e3-ef3e-46a7-aadf-5c61536ceb61
 		summarizeBy: none
 		sourceColumn: SemanaIsoInicio
@@ -426,7 +429,7 @@ table d_calendario
 
 	column SemanaIsoFim
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: dc13d00e-3cef-4ead-89a0-b2733f68039a
 		summarizeBy: none
 		sourceColumn: SemanaIsoFim
@@ -489,7 +492,7 @@ table d_calendario
 
 	column SemanaInicio
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 7138cd17-b209-4e8c-8901-2faffb6aa1af
 		summarizeBy: none
 		sourceColumn: SemanaInicio
@@ -500,7 +503,7 @@ table d_calendario
 
 	column SemanaFim
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 9ccf8ddb-00e6-4fdc-9e14-fb7b03e288a3
 		summarizeBy: none
 		sourceColumn: SemanaFim

@@ -18,7 +18,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBIDesktopVersion = 2.137.1102.0 (24.10)
 
-annotation PBI_QueryOrder = ["f_manutencoes","f_ocorrencias","f_viagens","d_calendario","d_placas","o_atualizacao","o_log_desenvolvimento","d_status_viagem","d_origem","d_destino","d_problema_causa","d_feriados_anbima","dir_xlsx","fx_horas_uteis","tim_inicio_expediente","tim_fim_expediente","fx_horas_uteis (2)"]
+annotation PBI_QueryOrder = ["f_manutencoes","f_ocorrencias","f_viagens","d_calendario","d_placas","o_atualizacao","o_log_desenvolvimento","d_status_viagem","d_feriados_anbima","dir_xlsx","fx_horas_uteis","tim_inicio_expediente","tim_fim_expediente","fx_horas_uteis (2)"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -30,9 +30,9 @@ ref table o_atualizacao
 ref table o_log_desenvolvimento
 ref table d_placas
 ref table d_status_viagem
-ref table d_origem
-ref table d_destino
-ref table d_problema_causa
+ref table _medidas
+ref table Produtividade
+ref table 'Numero Ocorrencias'
 
 ref cultureInfo pt-BR
 

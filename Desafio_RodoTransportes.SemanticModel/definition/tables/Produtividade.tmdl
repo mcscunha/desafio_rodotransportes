@@ -1,0 +1,54 @@
+table Produtividade
+	lineageTag: f529cf80-b8d1-485b-92b5-8b052b683e9e
+
+	column Produtividade
+		dataType: string
+		lineageTag: 2c9c744c-7e6e-462a-897a-5687e117943e
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value1]
+		sortByColumn: 'Produtividade Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Produtividade Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Produtividade Campos'
+		dataType: string
+		isHidden
+		lineageTag: ad78bb37-4f70-414f-a605-0de10d8b30cc
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value2]
+		sortByColumn: 'Produtividade Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Produtividade Pedido'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 93960c4d-81ce-4dd6-81cf-9797b6b032d8
+		summarizeBy: sum
+		isDataTypeInferred
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Produtividade = calculated
+		mode: import
+		source =
+				{
+				    ("Produtividade Percentual", NAMEOF('_medidas'[% Produtividade]), 0),
+				    ("Produtividade Numérica", NAMEOF('_medidas'[Saldo Produtividade Formatado]), 1)
+				}
+
+	annotation PBI_Id = a2f84f5582e64dfbb37db54fa4a4e33b
+

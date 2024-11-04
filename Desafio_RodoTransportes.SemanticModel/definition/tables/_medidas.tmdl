@@ -1,0 +1,305 @@
+table _medidas
+	lineageTag: e8b5281f-7e56-4719-b8c3-90c1124b557a
+
+	measure '1 - Soma Horas Origem' = SUM(f_viagens[saldo_origem])
+		displayFolder: Geral
+		lineageTag: 70728313-be6d-4fdc-b785-0237467271bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '2 - Soma Horas Entrega' = sum(f_viagens[saldo_entrega])
+		displayFolder: Geral
+		lineageTag: 796d8364-764d-4644-81b8-abde0555a46b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '3 - Soma Horas Destino' = sum(f_viagens[saldo_destino])
+		displayFolder: Geral
+		lineageTag: f34e2f69-4d92-4eea-a10e-645cd9252883
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Soma Horas' = [1 - Soma Horas Origem] + [2 - Soma Horas Entrega] + [3 - Soma Horas Destino]
+		formatString: #,0
+		displayFolder: Geral
+		lineageTag: f3c9313a-ec69-42be-b242-1f6306d3766b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Soma Horas Formatada' =
+			
+			VAR vTotalHoras = [Soma Horas]
+			VAR vHoras = INT(vTotalHoras / 3600)
+			VAR vMinutos = INT(((vTotalHoras/3600) - vHoras) * 60)
+			var vSegundos = ROUND((((((vTotalHoras/3600) - vHoras) * 60) - vMinutos) * 60), 0)
+			RETURN
+			    vHoras * 10000 + vMinutos * 100 + vSegundos
+		formatString: 00:00:00
+		displayFolder: Formatadas
+		lineageTag: 588419ea-fbde-4267-80ba-5ef783338211
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure '% Produtividade' =
+			DIVIDE(
+			    [Saldo Produtividade],
+			    CALCULATE([Saldo Produtividade], ALLSELECTED()),
+			    -1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Percentual
+		lineageTag: 90d63c12-e48d-4cab-b447-743ea04655f0
+
+	measure 'Soma Horas Manutencao' =
+			SUMX(
+			    VALUES(f_viagens[Placa]),
+			    [4 - Soma Horas Manutencao]
+			)
+		formatString: #,0
+		displayFolder: Numericos
+		lineageTag: d076bb61-0d28-4580-99b2-88ffa387dc15
+
+	measure 'Soma Horas Manutencao Formatado' =
+			
+			VAR vTotalHorasOriginal = [Soma Horas Manutencao]
+			VAR vTotalHoras = IF(
+			    vTotalHorasOriginal < 0,
+			    vTotalHorasOriginal * -1,
+			    vTotalHorasOriginal
+			)
+			VAR vDias = INT(vTotalHoras/(3600*24))
+			VAR vHoras = INT(((vTotalHoras/(3600*24)) - vDias) * 24)
+			VAR vMinutos = INT(((((vTotalHoras/(3600*24)) - vDias) * 24) - vHoras) * 60)
+			var vSegundos = INT(((((((vTotalHoras/(3600*24)) - vDias) * 24) - vHoras) * 60) - vMinutos) * 60)
+			RETURN
+			    IF(
+			        vTotalHorasOriginal < 0,
+			        (vDias*1000000 +  vHoras*10000 + vMinutos*100 + vSegundos) * -1,
+			        vDias*1000000 +  vHoras*10000 + vMinutos*100 + vSegundos
+			    )
+		formatString: 00 : 00:00:00
+		displayFolder: Formatadas
+		lineageTag: b667e44b-b745-41f6-bb24-dad334bd0931
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Saldo Produtividade' = [Soma Horas] - [Soma Horas Manutencao]
+		formatString: #,0
+		displayFolder: Numericos
+		lineageTag: 3ac0c1d0-a91d-46dc-b194-7d29cc130af6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Saldo Produtividade Formatado' =
+			
+			VAR vTotalHorasOriginal = [Saldo Produtividade]
+			VAR vTotalHoras = IF(
+			    vTotalHorasOriginal < 0,
+			    vTotalHorasOriginal * -1,
+			    vTotalHorasOriginal
+			)
+			VAR vDias = INT(vTotalHoras/(3600*24))
+			VAR vHoras = INT(((vTotalHoras/(3600*24)) - vDias) * 24)
+			VAR vMinutos = INT(((((vTotalHoras/(3600*24)) - vDias) * 24) - vHoras) * 60)
+			var vSegundos = INT(((((((vTotalHoras/(3600*24)) - vDias) * 24) - vHoras) * 60) - vMinutos) * 60)
+			RETURN
+			    IF(
+			        vTotalHorasOriginal < 0,
+			        (vDias*1000000 +  vHoras*10000 + vMinutos*100 + vSegundos) * -1,
+			        vDias*1000000 +  vHoras*10000 + vMinutos*100 + vSegundos
+			    )
+		formatString: 00 : 00:00:00
+		displayFolder: Formatadas
+		lineageTag: 898e3aec-3a73-472e-90a9-e8bbc046051e
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure '4 - Soma Horas Manutencao' = SUM(f_manutencoes[saldo_manutencao])
+		formatString: 0
+		displayFolder: Geral
+		lineageTag: 7d45602a-9639-44a7-ad59-b8012c0b5374
+
+	measure 'Produtividade Cor' = ```
+			IF(
+			    [Saldo Produtividade] > 0, 
+			    "#00CDAC",
+			    "#B11623"
+			)
+			```
+		displayFolder: Cor
+		lineageTag: 8a574cbd-41c2-4144-a71f-a82c6b2a45d8
+
+	measure 'Ranking Problemas' = ```
+			
+			VAR vTopN = 'Numero Ocorrencias'[Valor Numero Ocorrencias]
+			VAR vMaioresOcorrencias = WINDOW(
+			    0, ABS,
+			    vTopN, ABS,
+			    ALLSELECTED(
+			        f_ocorrencias[Problema], 
+			        f_ocorrencias[Causa], 
+			        f_ocorrencias[Placa]
+			    ),
+			    ORDERBY(
+			        [Qtde Problema],
+			        DESC
+			    )
+			)
+			var vResult = CALCULATE(
+			    [Qtde Problema],
+			    KEEPFILTERS(vMaioresOcorrencias)
+			)
+			RETURN
+			    vResult
+			```
+		formatString: 0
+		displayFolder: Numericos
+		lineageTag: f4cb06bb-ba98-446e-8f47-2e2bc91747f7
+
+	measure 'Qtde Problema' = COUNTROWS(f_ocorrencias)
+		formatString: 0
+		displayFolder: Geral
+		lineageTag: 15f3318c-b265-462a-a09e-2f90c7d3909b
+
+	measure 'Top 10 Produtividade' = ```
+			
+			var vMaisProdutivos = WINDOW(
+			    0, ABS,
+			    10, ABS,
+			    // Se colocar mais campos na tabela, deve-se escolher a tabela FATO por conter mais campos relacionados
+			    // Aqui optou-se por colocar a d_placas por ser apenas um campo (sem ser medida) para mostrar na tela (visual de tabela)
+			    ALLSELECTED(   
+			        d_placas[Placa]
+			    ),
+			    ORDERBY(
+			        [Saldo Produtividade],
+			        DESC
+			    )
+			)
+			var vResult = CALCULATE(
+			    [Saldo Produtividade Formatado],
+			    KEEPFILTERS(vMaisProdutivos)
+			)
+			RETURN
+			    vResult
+			```
+		formatString: 00 : 00:00:00
+		displayFolder: Numericos
+		lineageTag: 0e8b9243-8142-4ef3-94eb-221d6400871c
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Produtividade Planejado' =
+			
+			VAR vNumeroDiasFiltrados = COUNTROWS(
+			    FILTER(
+			        d_calendario,
+			        d_calendario[DiaUtilNum] = 1
+			    )
+			)
+			VAR vNumeroCaminhoesFiltrados = COUNTROWS(
+			    VALUES(f_viagens[Placa])
+			)
+			VAR vHorasUteisPorDia = (TIME(18, 0, 0) - TIME(08, 00, 00)) * 24
+			RETURN
+			    vNumeroCaminhoesFiltrados * vHorasUteisPorDia * vNumeroDiasFiltrados
+		formatString: #,0
+		displayFolder: Numericos
+		lineageTag: 90431d0d-2810-47d3-a0b9-dd3100d9c5c7
+
+	measure 'Produtividade Realizada' = INT([Soma Horas] / 3600)
+		formatString: #,0
+		displayFolder: Numericos
+		lineageTag: 71d23951-b913-457c-a7fd-6a074276eb6c
+
+	measure '% Aderencia' =
+			DIVIDE(
+			    [Produtividade Realizada],
+			    [Produtividade Planejado],
+			    -1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Percentual
+		lineageTag: dc4a6e75-a9ae-4cfe-b23b-4bab40d4f7bb
+
+	measure 'Soma Horas Manutencao Formatada (h)' = INT([Soma Horas Manutencao] / 3600)
+		formatString: #,0
+		displayFolder: Formatadas
+		lineageTag: 0928785b-d8a1-40a2-bca0-da3d4513e7d2
+
+	measure 'Soma Horas Formatada (h)' = INT([Soma Horas] / 3600)
+		formatString: 0
+		displayFolder: Formatadas
+		lineageTag: 7d9785be-502e-4a73-840d-77d8f2acef41
+
+	measure 'Saldo Produtividade Formatado (h)' = INT([Saldo Produtividade]/3600)
+		formatString: 0
+		displayFolder: Formatadas
+		lineageTag: 8e1a39de-1516-441d-87ac-4c45e029e13d
+
+	measure 'Qtde Viagens' = COUNTROWS(f_viagens)
+		formatString: 0
+		displayFolder: Geral
+		lineageTag: 2bd1d8e0-42b6-4e13-875e-37364bfa04c0
+
+	measure 'Numero Viagens' =
+			
+			VAR vViagens = SUMMARIZE(
+			    f_viagens,
+			    f_viagens[ID Viagem],
+			    "@Viagens", COUNT(f_viagens[Índice])
+			)
+			VAR vResult = CALCULATE(
+			    [Qtde Viagens],
+			    vViagens
+			)
+			RETURN
+			    vResult
+		formatString: #,0
+		displayFolder: Numericos
+		lineageTag: 519c19f1-bc55-49da-94f7-9a4bd46e9a9d
+
+	measure 'Media Horas Origem' = AVERAGE(f_viagens[saldo_origem])/3600
+		displayFolder: Numericos
+		lineageTag: 9bce2d80-1267-4ef9-af1c-4301b5fab7c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Media Horas Entrega' = AVERAGE(f_viagens[saldo_entrega])/3600
+		displayFolder: Numericos
+		lineageTag: 384f22da-5d66-4f61-880b-afaa6fa18bca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Media Horas Destino' = AVERAGE(f_viagens[saldo_destino]) / 3600
+		displayFolder: Numericos
+		lineageTag: 06d640cb-4adc-4bf5-bf48-99a72496b7d4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 9f1cfb11-0e7d-4116-bde3-67a91fbbf00e
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _medidas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = d568364e1f744dffb43ae63088fbae1c
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":"{}"}
+
+	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = ```
+			Uma instrução Evaluate não pode retornar uma tabela sem colunas.
+			The current operation was cancelled because another operation in the transaction failed.
+			
+			```
+

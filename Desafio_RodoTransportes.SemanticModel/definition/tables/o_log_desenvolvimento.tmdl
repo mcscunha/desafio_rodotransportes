@@ -11,17 +11,16 @@ table o_log_desenvolvimento
 
 	column 'Total de Minutos'
 		dataType: double
+		formatString: #,0
 		lineageTag: e95343bb-27bd-496e-b629-a5947708a6b1
 		summarizeBy: sum
 		sourceColumn: Total de Minutos
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column dt_inicio
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: ef36019a-6b03-4f61-86f6-96f8e15e8711
 		summarizeBy: none
 		sourceColumn: dt_inicio
@@ -30,7 +29,7 @@ table o_log_desenvolvimento
 
 	column dt_fim
 		dataType: dateTime
-		formatString: General Date
+		formatString: Short Date
 		lineageTag: cc90921d-a780-4f24-a7a7-6abf01c4b4be
 		summarizeBy: none
 		sourceColumn: dt_fim
@@ -39,13 +38,12 @@ table o_log_desenvolvimento
 
 	column saldo_segundos
 		dataType: double
+		formatString: 0
 		lineageTag: 85233147-b042-4c1a-ab21-3794e4394a2e
 		summarizeBy: sum
 		sourceColumn: saldo_segundos
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition o_log_desenvolvimento = m
 		mode: import

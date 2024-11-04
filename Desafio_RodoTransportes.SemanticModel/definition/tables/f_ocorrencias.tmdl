@@ -60,6 +60,17 @@ table f_ocorrencias
 
 		annotation SummarizationSetBy = Automatic
 
+	column DataFiltro
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: aa73a781-9894-4c5c-ad52-f8322b59ec65
+		summarizeBy: none
+		sourceColumn: DataFiltro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition f_ocorrencias = m
 		mode: import
 		queryGroup: fato
@@ -71,9 +82,11 @@ table f_ocorrencias
 				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
 				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Causa", type text}, {"Data Hora Abertura", type datetime}, {"Data Hora Fechamento", type datetime}, {"Problema", type text}, {"ORDEM", Int64.Type}, {"Placa", type text}, {"Origem", type text}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Causa", type text}, {"Data Hora Abertura", type datetime}, {"Data Hora Fechamento", type datetime}, {"Problema", type text}, {"ORDEM", Int64.Type}, {"Placa", type text}, {"Origem", type text}}),
+				    #"Data Inserida" = Table.AddColumn(#"Tipo Alterado", "Data", each DateTime.Date([Data Hora Abertura]), type date),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Data Inserida",{{"Data", "DataFiltro"}})
 				in
-				    #"Tipo Alterado"
+				    #"Colunas Renomeadas"
 				```
 
 	annotation PBI_NavigationStepName = Navegação

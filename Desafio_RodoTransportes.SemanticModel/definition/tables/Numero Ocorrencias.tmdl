@@ -1,0 +1,28 @@
+table 'Numero Ocorrencias'
+	lineageTag: 081a00d9-aaaf-4ad9-9d5f-ce823d515ab8
+
+	measure 'Valor Numero Ocorrencias' = SELECTEDVALUE('Numero Ocorrencias'[Numero Ocorrencias])
+		formatString: 0
+		lineageTag: 9eb88d5b-7388-4586-9838-75b21f97fbd8
+
+	column 'Numero Ocorrencias'
+		dataType: int64
+		formatString: 0
+		lineageTag: 5605d90a-ae62-43ea-acfa-eaf159b0be68
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Numero Ocorrencias' = calculated
+		mode: import
+		source = GENERATESERIES(1, 5, 1)
+
+	annotation PBI_Id = 35b16ebe37a04bedb3e43393567a25f3
+

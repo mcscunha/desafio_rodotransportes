@@ -1,0 +1,12 @@
+{
+  "name": "Custom",
+  "textClasses": {
+    "label": {
+      "fontFace": "wf_standard-font, helvetica, arial, sans-serif",
+      "fontSize": 12
+    },
+    "callout": {
+      "fontSize": 20
+    }
+  }
+}

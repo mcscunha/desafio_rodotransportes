@@ -12,7 +12,7 @@ Segue Questionário + Tarefa:
   3. Qual a maior dificuldade já encontrada em seu aprendizado? e como você resolveu o problema? Descreva brevemente.
   4. Elabore um dashboard em POWERBI até dia **04/11/2024** contendo:
 
-  - Precisamos identificar em percentual a produtividade geral das placas da frota de veículos do cliente
+  - Precisamos identificar, em percentual, a produtividade geral das placas da frota de veículos do cliente
 
 Regras / Instruções:
   - A produtividade será calculada somente sobre as horas úteis das viagens da tabela fato considerar das 08:00 às 18:00. (tabela viagens);
@@ -27,4 +27,4 @@ Regras / Instruções:
   - Sugestões são bem-vindas;
   - Aplique seus conhecimentos DAX,PowerQuery, UX tratamentos e etc.
 
-Boa sorte!! 
+Boa sorte!!

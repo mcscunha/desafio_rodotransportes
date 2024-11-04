@@ -35,6 +35,8 @@ table f_viagens
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column 'Status monitoramento'
 		dataType: string
 		lineageTag: 6723a39f-c1b8-4c9c-bb36-7796734f05a3
@@ -255,9 +257,10 @@ table f_viagens
 				            {"saldo_entrega", Duration.TotalSeconds, type number}, 
 				            {"saldo_destino", Duration.TotalSeconds, type number}
 				        }
-				    )
+				    ),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Total de Segundos Calculados",{{"Cadastro da viagem", type date}})
 				in
-				    #"Total de Segundos Calculados"
+				    #"Tipo Alterado1"
 				```
 
 	annotation PBI_NavigationStepName = Navegação

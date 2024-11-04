@@ -5,6 +5,11 @@
       "name": "CY24SU10",
       "reportVersionAtImport": "5.59",
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom41197036625663896.json",
+      "reportVersionAtImport": "5.59",
+      "type": "RegisteredResources"
     }
   },
   "layoutOptimization": "None",
@@ -45,6 +50,27 @@
           "name": "CY24SU10",
           "path": "BaseThemes/CY24SU10.json",
           "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Custom41197036625663896.json",
+          "path": "Custom41197036625663896.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "Capa_-_Rodo_Transportes6074704706983787.png",
+          "path": "Capa_-_Rodo_Transportes6074704706983787.png",
+          "type": "Image"
+        },
+        {
+          "name": "Pagina_Produtividade9862398806827164.png",
+          "path": "Pagina_Produtividade9862398806827164.png",
+          "type": "Image"
         }
       ]
     }

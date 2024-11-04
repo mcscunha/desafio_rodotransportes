@@ -9,23 +9,43 @@ table f_manutencoes
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Data Hora Início'
+	column Inicio
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 6be43754-910b-41e9-bdb8-7e2ea897aa67
 		summarizeBy: none
-		sourceColumn: Data Hora Início
+		sourceColumn: Inicio
 
 		annotation SummarizationSetBy = Automatic
 
-	column 'Data Hora Fim 2'
+	column Fim
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: 92e5f9ff-de2a-4668-98bd-c3ef57e87108
 		summarizeBy: none
-		sourceColumn: Data Hora Fim 2
+		sourceColumn: Fim
 
 		annotation SummarizationSetBy = Automatic
+
+	column saldo_manutencao
+		dataType: int64
+		formatString: #,0
+		lineageTag: fd1b94c5-9faa-43c3-9bb3-72ba325c72c1
+		summarizeBy: sum
+		sourceColumn: saldo_manutencao
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataFiltro
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 9519bd98-62b7-447e-86a1-ccfe060386e3
+		summarizeBy: none
+		sourceColumn: DataFiltro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition f_manutencoes = m
 		mode: import
@@ -38,9 +58,34 @@ table f_manutencoes
 				    Fonte = Excel.Workbook(File.Contents(arquivo_xlsx), null, true),
 				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
 				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
-				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"Data Hora Início", type datetime}, {"Data Hora Fim 2", type datetime}})
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Placa", type text}, {"Data Hora Início", type datetime}, {"Data Hora Fim 2", type datetime}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"Data Hora Início", "Inicio"}, {"Data Hora Fim 2", "Fim"}}),
+				    
+				    // lista de feriados bufferizados para otimizar o tratamento
+				    feriados_buffered = List.Buffer(d_feriados_anbima[Data]),
+				    #"Função Personalizada Invocada" = Table.AddColumn(
+				        #"Colunas Renomeadas",
+				        "saldo_manutencao", each fx_horas_uteis(
+				            tim_inicio_expediente,
+				            tim_fim_expediente,
+				            [Inicio],
+				            [Fim],
+				            feriados_buffered,
+				            null,
+				            null
+				        )
+				    ),
+				    #"Total de Segundos Calculados" = Table.TransformColumns(#"Função Personalizada Invocada",{{"saldo_manutencao", Duration.TotalSeconds, type number}}),
+				    
+				    // Como apareceram registros com data e hora diferentes, houve uma distorcao nos dados, necessitando arredondar para nao atrapalhar os calculos
+				    #"Arredondar Para Cima Inserido" = Table.AddColumn(#"Total de Segundos Calculados", "Arredondar para Cima", each Number.RoundUp([saldo_manutencao]), Int64.Type),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Arredondar Para Cima Inserido",{"saldo_manutencao"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Colunas Removidas",{{"Arredondar para Cima", "saldo_manutencao"}}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Renomeadas1", {"Placa", "Inicio", "Fim"}),
+				    #"Data Inserida" = Table.AddColumn(#"Duplicatas Removidas", "Data", each DateTime.Date([Inicio]), type date),
+				    #"Colunas Renomeadas2" = Table.RenameColumns(#"Data Inserida",{{"Data", "DataFiltro"}})
 				in
-				    #"Tipo Alterado"
+				    #"Colunas Renomeadas2"
 				```
 
 	annotation PBI_NavigationStepName = Navegação

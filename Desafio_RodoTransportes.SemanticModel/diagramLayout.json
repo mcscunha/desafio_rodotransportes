@@ -4,14 +4,14 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 600.3759207237697,
         "y": 0
       },
       "nodes": [
         {
           "location": {
-            "x": 947.07187494453819,
-            "y": 287.50396203673472
+            "x": 1269.8091656622455,
+            "y": 635.609249404742
           },
           "nodeIndex": "f_manutencoes",
           "nodeLineageTag": "579c5ef4-9dac-406b-a41a-25e77682eb39",
@@ -19,12 +19,12 @@
             "height": 152,
             "width": 234
           },
-          "zIndex": 1
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 124.69868862581029,
-            "y": 532.72792965630276
+            "x": 71.144029030732241,
+            "y": 545.41192798145278
           },
           "nodeIndex": "f_ocorrencias",
           "nodeLineageTag": "ecf16bcd-62e5-4199-99cf-72b561ad27e2",
@@ -32,20 +32,21 @@
             "height": 311.4199916257503,
             "width": 234
           },
-          "zIndex": 2
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 607.63733258895559,
-            "y": 252.44001116566631
+            "x": 468.11335101230486,
+            "y": 277.80800781596645
           },
           "nodeIndex": "f_viagens",
           "nodeLineageTag": "2d96753c-b426-4c45-8467-b80b9a0651e7",
           "size": {
-            "height": 566.36396482815144,
+            "height": 176,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 5,
+          "expandedHeight": 566.36396482815144
         },
         {
           "location": {
@@ -55,10 +56,11 @@
           "nodeIndex": "d_calendario",
           "nodeLineageTag": "9127dd74-60c4-4bbf-b864-147f1456e4e7",
           "size": {
-            "height": 300,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 9,
+          "expandedHeight": 300
         },
         {
           "location": {
@@ -71,7 +73,7 @@
             "height": 72,
             "width": 234
           },
-          "zIndex": 5,
+          "zIndex": 6,
           "expandedHeight": 104
         },
         {
@@ -85,73 +87,75 @@
             "height": 72,
             "width": 234
           },
-          "zIndex": 6,
+          "zIndex": 7,
           "expandedHeight": 176
         },
         {
           "location": {
-            "x": 586.39881423955524,
-            "y": 0
-          },
-          "nodeIndex": "d_destino",
-          "nodeLineageTag": "8eca71d7-af13-45dd-ac3c-1c1b4540b219",
-          "size": {
-            "height": 104,
-            "width": 234
-          },
-          "zIndex": 7
-        },
-        {
-          "location": {
-            "x": 295.39090091844423,
-            "y": 0
-          },
-          "nodeIndex": "d_origem",
-          "nodeLineageTag": "6e7a2d33-feab-4b82-b763-44075885d5ac",
-          "size": {
-            "height": 104,
-            "width": 234
-          },
-          "zIndex": 8
-        },
-        {
-          "location": {
-            "x": 1164.264157022586,
+            "x": 362.353596243654,
             "y": 0
           },
           "nodeIndex": "d_placas",
           "nodeLineageTag": "8284e4cf-657e-4d02-9abe-fb0efb5bc03e",
           "size": {
-            "height": 145,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 9
+          "zIndex": 10,
+          "expandedHeight": 145
         },
         {
           "location": {
-            "x": 870.43756665463866,
-            "y": 0
-          },
-          "nodeIndex": "d_problema_causa",
-          "nodeLineageTag": "7032733a-818a-470b-a008-a7cf35d813c2",
-          "size": {
-            "height": 145,
-            "width": 234
-          },
-          "zIndex": 10
-        },
-        {
-          "location": {
-            "x": 1446.1695281330901,
+            "x": 656.94296567930837,
             "y": 0
           },
           "nodeIndex": "d_status_viagem",
           "nodeLineageTag": "fbe5a8e2-5e71-4bd8-ac05-31ce133f3bbe",
           "size": {
-            "height": 145,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 11
+          "zIndex": 8,
+          "expandedHeight": 145
+        },
+        {
+          "location": {
+            "x": 2123.135701644037,
+            "y": 237.51397180669278
+          },
+          "nodeIndex": "_medidas",
+          "nodeLineageTag": "e8b5281f-7e56-4719-b8c3-90c1124b557a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 2407.135701644037,
+            "y": 267.06863140177074
+          },
+          "nodeIndex": "Produtividade",
+          "nodeLineageTag": "f529cf80-b8d1-485b-92b5-8b052b683e9e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 2691.135701644037,
+            "y": 316.41595980360154
+          },
+          "nodeIndex": "Numero Ocorrencias",
+          "nodeLineageTag": "081a00d9-aaaf-4ad9-9d5f-ce823d515ab8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas as tabelas",
