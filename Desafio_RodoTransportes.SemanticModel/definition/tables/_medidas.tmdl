@@ -277,29 +277,31 @@ table _medidas
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column Column
+	measure '% Produtividade DF' =
+			DIVIDE(
+			    [Saldo Produtividade],
+			    CALCULATE([Saldo Produtividade], ALLSELECTED()),
+			    -1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Percentual
+		lineageTag: 89cc87c5-ff31-4e17-abdb-0d1917853b3f
+
+	column Value
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 9f1cfb11-0e7d-4116-bde3-67a91fbbf00e
+		lineageTag: 882ffdb0-86bb-487d-895a-068bfa37f616
 		summarizeBy: sum
 		isNameInferred
 		isDataTypeInferred
-		sourceColumn: [Column]
+		sourceColumn: [Value]
 
 		annotation SummarizationSetBy = Automatic
 
 	partition _medidas = calculated
 		mode: import
-		source = Row("Column", BLANK())
+		source = {0}
 
 	annotation PBI_Id = d568364e1f744dffb43ae63088fbae1c
-
-	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":"{}"}
-
-	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = ```
-			Uma instrução Evaluate não pode retornar uma tabela sem colunas.
-			The current operation was cancelled because another operation in the transaction failed.
-			
-			```
 

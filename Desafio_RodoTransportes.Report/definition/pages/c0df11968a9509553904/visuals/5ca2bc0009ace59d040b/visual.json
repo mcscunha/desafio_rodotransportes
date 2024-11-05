@@ -45,12 +45,12 @@
                       "Entity": "_medidas"
                     }
                   },
-                  "Property": "% Produtividade"
+                  "Property": "% Produtividade DF"
                 }
               },
-              "queryRef": "_medidas.% Produtividade",
-              "nativeQueryRef": "Produtividade Percentual",
-              "displayName": "Produtividade Percentual"
+              "queryRef": "_medidas.% Produtividade DF",
+              "nativeQueryRef": "% Produtividade",
+              "displayName": "% Produtividade"
             }
           ]
         },

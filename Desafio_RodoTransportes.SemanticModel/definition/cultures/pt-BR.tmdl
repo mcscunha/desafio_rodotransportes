@@ -5633,125 +5633,6 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "v_medidas_medida.column": {
-			      "Definition": {
-			        "Binding": {
-			          "ConceptualEntity": "_medidas",
-			          "ConceptualProperty": "Column"
-			        }
-			      },
-			      "State": "Generated",
-			      "Visibility": {
-			        "Value": "Hidden"
-			      },
-			      "Terms": [
-			        {
-			          "column": {
-			            "State": "Generated"
-			          }
-			        },
-			        {
-			          "pilaster": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.491
-			          }
-			        },
-			        {
-			          "pier": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.491
-			          }
-			        },
-			        {
-			          "pillar": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "post": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "support": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "stake": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "pole": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "buttress": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "underpinning": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.476
-			          }
-			        },
-			        {
-			          "contribution": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.466
-			          }
-			        }
-			      ]
-			    },
 			    "v_medidas_medida.soma_horas_origem": {
 			      "Definition": {
 			        "Binding": {
@@ -6632,23 +6513,268 @@ cultureInfo pt-BR
 			          }
 			        }
 			      ]
+			    },
+			    "v_medidas_medida.value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Visibility": {
+			        "Value": "Hidden"
+			      },
+			      "Terms": [
+			        {
+			          "value": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "assessment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "worth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "price": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "cost": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "charge": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "rate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.466
+			          }
+			        },
+			        {
+			          "significance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.466
+			          }
+			        },
+			        {
+			          "usefulness": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.466
+			          }
+			        },
+			        {
+			          "consequence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.466
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.qtde_viagens": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Qtde Viagens"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "qtde viagens": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.numero_viagens": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Numero Viagens"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "numero viagens": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.media_horas_origem": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Media Horas Origem"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "media horas origem": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.media_horas_entrega": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Media Horas Entrega"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "media horas entrega": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.media_horas_destino": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "Media Horas Destino"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "media horas destino": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "v_medidas_medida.produtividade_DF": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "_medidas",
+			          "ConceptualProperty": "% Produtividade DF"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% produtividade DF": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage produtividade df": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "pct produtividade df": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "% Produtividade": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
-			    "f_manutencoe_has_f_viagen": {
+			    "f_viagen_has_v_medidas_medida_media_horas_entrega": {
 			      "Binding": {
-			        "ConceptualEntity": "f_manutencoes"
+			        "ConceptualEntity": "f_viagens"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "f_manutencoe": {
-			          "Target": {
-			            "Entity": "f_manutencoe"
-			          }
-			        },
 			        "f_viagen": {
 			          "Target": {
 			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.media_horas_entrega": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.media_horas_entrega"
 			          }
 			        }
 			      },
@@ -6656,15 +6782,114 @@ cultureInfo pt-BR
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "f_manutencoe"
+			              "Role": "f_viagen"
 			            },
 			            "Object": {
-			              "Role": "f_viagen"
+			              "Role": "v_medidas_medida.media_horas_entrega"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "f_manutencoes_have_f_viagens"
+			          "ID": "f_viagens_have_media_horas_entrega"
+			        }
+			      ]
+			    },
+			    "f_viagen_has_v_medidas_medida_media_horas_origem": {
+			      "Binding": {
+			        "ConceptualEntity": "f_viagens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.media_horas_origem": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.media_horas_origem"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_viagen"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.media_horas_origem"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_viagens_have_media_horas_origem"
+			        }
+			      ]
+			    },
+			    "f_viagen_has_v_medidas_medida_numero_viagens": {
+			      "Binding": {
+			        "ConceptualEntity": "f_viagens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.numero_viagens": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.numero_viagens"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_viagen"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.numero_viagens"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_viagens_have_numero_viagens"
+			        }
+			      ]
+			    },
+			    "f_viagen_has_v_medidas_medida_qtde_viagens": {
+			      "Binding": {
+			        "ConceptualEntity": "f_viagens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.qtde_viagens": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.qtde_viagens"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_viagen"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.qtde_viagens"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_viagens_have_qtde_viagens"
 			        }
 			      ]
 			    },
@@ -6998,15 +7223,15 @@ cultureInfo pt-BR
 			        }
 			      ]
 			    },
-			    "f_viagen_has_v_medidas_medida_top_10_produtividade": {
+			    "v_medidas_medida_has_top_10_produtividade": {
 			      "Binding": {
-			        "ConceptualEntity": "f_viagens"
+			        "ConceptualEntity": "_medidas"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "f_viagen": {
+			        "v_medidas_medida": {
 			          "Target": {
-			            "Entity": "f_viagen"
+			            "Entity": "v_medidas_medida"
 			          }
 			        },
 			        "v_medidas_medida.top_10_produtividade": {
@@ -7019,7 +7244,7 @@ cultureInfo pt-BR
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "f_viagen"
+			              "Role": "v_medidas_medida"
 			            },
 			            "Object": {
 			              "Role": "v_medidas_medida.top_10_produtividade"
@@ -7027,40 +7252,7 @@ cultureInfo pt-BR
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "f_viagens_have_top_10_produtividade"
-			        }
-			      ]
-			    },
-			    "f_manutencoe_has_v_medidas_medida_top_10_produtividade": {
-			      "Binding": {
-			        "ConceptualEntity": "f_manutencoes"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "f_manutencoe": {
-			          "Target": {
-			            "Entity": "f_manutencoe"
-			          }
-			        },
-			        "v_medidas_medida.top_10_produtividade": {
-			          "Target": {
-			            "Entity": "v_medidas_medida.top_10_produtividade"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "f_manutencoe"
-			            },
-			            "Object": {
-			              "Role": "v_medidas_medida.top_10_produtividade"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "f_manutencoes_have_top_10_produtividade"
+			          "ID": "Phrasing_medidas_have_top_10_produtividade"
 			        }
 			      ]
 			    },
@@ -7800,39 +7992,6 @@ cultureInfo pt-BR
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "d_placas_have_placas"
-			        }
-			      ]
-			    },
-			    "o_log_desenvolvimento_has_saldo_segundo": {
-			      "Binding": {
-			        "ConceptualEntity": "o_log_desenvolvimento"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "o_log_desenvolvimento": {
-			          "Target": {
-			            "Entity": "o_log_desenvolvimento"
-			          }
-			        },
-			        "o_log_desenvolvimento.saldo_segundo": {
-			          "Target": {
-			            "Entity": "o_log_desenvolvimento.saldo_segundo"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "o_log_desenvolvimento"
-			            },
-			            "Object": {
-			              "Role": "o_log_desenvolvimento.saldo_segundo"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "o_log_desenvolvimentos_have_saldo_segundo"
 			        }
 			      ]
 			    },
@@ -12354,6 +12513,138 @@ cultureInfo pt-BR
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "f_manutencoes_have_inicios"
+			        }
+			      ]
+			    },
+			    "f_viagen_has_v_medidas_medida_media_horas_destino": {
+			      "Binding": {
+			        "ConceptualEntity": "f_viagens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.media_horas_destino": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.media_horas_destino"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_viagen"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.media_horas_destino"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_viagens_have_media_horas_destino"
+			        }
+			      ]
+			    },
+			    "f_manutencoe_has_v_medidas_medida_produtividade_DF": {
+			      "Binding": {
+			        "ConceptualEntity": "f_manutencoes"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_manutencoe": {
+			          "Target": {
+			            "Entity": "f_manutencoe"
+			          }
+			        },
+			        "v_medidas_medida.produtividade_DF": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.produtividade_DF"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_manutencoe"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.produtividade_DF"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_manutencoes_have__produtividade_DF"
+			        }
+			      ]
+			    },
+			    "f_viagen_has_v_medidas_medida_produtividade_DF": {
+			      "Binding": {
+			        "ConceptualEntity": "f_viagens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        },
+			        "v_medidas_medida.produtividade_DF": {
+			          "Target": {
+			            "Entity": "v_medidas_medida.produtividade_DF"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_viagen"
+			            },
+			            "Object": {
+			              "Role": "v_medidas_medida.produtividade_DF"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_viagens_have__produtividade_DF"
+			        }
+			      ]
+			    },
+			    "f_manutencoe_has_f_viagen": {
+			      "Binding": {
+			        "ConceptualEntity": "f_manutencoes"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "f_manutencoe": {
+			          "Target": {
+			            "Entity": "f_manutencoe"
+			          }
+			        },
+			        "f_viagen": {
+			          "Target": {
+			            "Entity": "f_viagen"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "f_manutencoe"
+			            },
+			            "Object": {
+			              "Role": "f_viagen"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "f_manutencoes_have_f_viagens"
 			        }
 			      ]
 			    },

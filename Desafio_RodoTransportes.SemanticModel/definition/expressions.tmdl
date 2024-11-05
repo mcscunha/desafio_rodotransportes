@@ -1,4 +1,4 @@
-expression dir_xlsx = "C:\\PowerBI\\DesafioMoby\\dados\" meta [IsParameterQuery=true, List={"C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", "C:\\PowerBI\\DesafioMoby\\dados\"}, DefaultValue="C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", Type="Text", IsParameterQueryRequired=true]
+expression dir_xlsx = "C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\" meta [IsParameterQuery=true, List={"C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", "C:\\PowerBI\\DesafioMoby\\dados\"}, DefaultValue="C:\\Users\\mcscunha\\Documents\\PowerBI\\desafio_rodotransportes\\dados\\", Type="Text", IsParameterQueryRequired=true]
 	lineageTag: d2fd0231-e5f0-4c92-9c23-5110e699a470
 
 	annotation PBI_NavigationStepName = Navegação
